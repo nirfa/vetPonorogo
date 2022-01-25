@@ -36,25 +36,25 @@
                                                 @endforeach
                                              </select>
                                              </div>
-                                            
+
                                              <div class="col-md-2 form-group">
                                                 <input type="text" id="email-id" class="form-control" name="stok_awal" >
-                                             </div>   
-                                            
-                                             
+                                             </div>
+
+
                                              <div class="col-md-4">
                                                 <label>Satuan</label>
                                              </div>
                                              <div class="col-md-8 form-group">
                                                  <select name="satuan" class="form-select" id="basicSelect">
-                                                    <option value="Ampul">Ampul</option>  
+                                                    <option value="Ampul">Ampul</option>
                                                     <option value="Buah">Buah</option>
                                                     <option value="Botol">Botol</option>
                                                     <option value="Cm">Cm</option>
                                                     <option value="Kaplet">Kaplet</option>
                                                     <option value="kapsul">Kapsul</option>
                                                     <option value="Ml">Ml</option>
-                                                    <option value="Tablet">Tablet</option>                                               
+                                                    <option value="Tablet">Tablet</option>
                                                     <option value="Tube">Tube</option>
                                                 </select>
                                              </div>
@@ -64,12 +64,12 @@
                                              <div class="col-md-8 form-group">
                                                 <input type="text" id="email-id" class="form-control" name="stok_awal" >
                                              </div>
-                                            
-                                             
+
+
                                              <div class="col-sm-12 d-flex justify-content-end">
-                                               
+
                                                 <button type="submit" class="btn btn-primary me-1 mb-1">Tambah</button>
-                                               
+
                                              </div>
                                        </div>
                                     </div>
@@ -103,7 +103,7 @@
                                                 <option value="{{ $key }}">{{ $value }}</option>
                                                 @endforeach
                                              </select>
-                                             </div>   
+                                             </div>
                                              <!-- <div class="col-md-4">
                                                 <label>Kode Barang</label>
                                              </div> -->
@@ -117,14 +117,14 @@
                                              </div>
                                              <div class="col-md-8 form-group">
                                                  <select name="satuan" class="form-select" id="basicSelect">
-                                                    <option value="Ampul">Ampul</option>  
+                                                    <option value="Ampul">Ampul</option>
                                                     <option value="Buah">Buah</option>
                                                     <option value="Botol">Botol</option>
                                                     <option value="Cm">Cm</option>
                                                     <option value="Kaplet">Kaplet</option>
                                                     <option value="kapsul">Kapsul</option>
                                                     <option value="Ml">Ml</option>
-                                                    <option value="Tablet">Tablet</option>                                               
+                                                    <option value="Tablet">Tablet</option>
                                                     <option value="Tube">Tube</option>
                                                 </select>
                                              </div>
@@ -134,12 +134,18 @@
                                              <div class="col-md-8 form-group">
                                                 <input type="number" id="email-id" class="form-control" name="stok_awal" >
                                              </div>
-                                            
-                                             
+
+                                             <div class="col-md-4">
+                                                <label>Harga Dasar</label>
+                                             </div>
+                                             <div class="col-md-8 form-group">
+                                                <input type="number" id="harga" class="form-control" name="harga_dasar" >
+                                             </div>
+
                                              <div class="col-sm-12 d-flex justify-content-end">
-                                               
+
                                                 <button type="submit" class="btn btn-primary me-1 mb-1">Tambah</button>
-                                               
+
                                              </div>
                                        </div>
                                     </div>
@@ -150,10 +156,10 @@
                </div>
             </div>
          </section>
-    
+
       </div>
    </div>
-   
+
    @section('script')
    <script type="text/javascript">
     jQuery(document).ready(function ()
@@ -182,7 +188,7 @@
                }
             });
     });
-    </script>   
+    </script>
    @endsection
 
 @endsection

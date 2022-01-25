@@ -11,7 +11,10 @@ use DB;
 use Redirect;
 
 use App\Event;
+use App\Exports\DataLaporanKeuanganExport;
+use App\Exports\DataLaporanObatExport;
 use App\Exports\DataPasienAllExport;
+use App\Exports\DataPemakaianObatExport;
 use App\Exports\StokObatExport;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -189,5 +192,20 @@ class DataController extends Controller
     public function Dpasien()
     {
         return Excel::download(new DataPasienAllExport(), 'DataPasienAll.xlsx');
+    }
+
+    public function DLaporanObat()
+    {
+        return Excel::download(new DataLaporanObatExport(), 'DataLaporanObat.xlsx');
+    }
+
+    public function DPemakaianObat()
+    {
+        return Excel::download(new DataPemakaianObatExport(), 'DataPemakaianObat.xlsx');
+    }
+
+    public function DKeuangan()
+    {
+        return Excel::download(new DataLaporanKeuanganExport(), 'DataLaporanKeuangan.xlsx');
     }
 }

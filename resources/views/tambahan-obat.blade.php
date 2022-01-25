@@ -39,19 +39,19 @@
                                              <div class="col-md-8 form-group">
                                                 <input type="number" id="email-id" class="form-control" value="{{$o->stok_akhir}}" disabled >
                                              </div>
-                                            
+
                                              <div class="col-md-4">
                                                 <label>Tambah Stok </label>
                                              </div>
                                              <div class="col-md-8 form-group">
                                                 <input type="number" id="email-id" class="form-control" name="jumlah" >
                                              </div>
-                                            
-                                             
+
+
                                              <div class="col-sm-12 d-flex justify-content-end">
-                                               
+
                                                 <button type="submit" class="btn btn-primary me-1 mb-1">Tambah</button>
-                                               
+
                                              </div>
                                        </div>
                                     </div>
@@ -63,7 +63,7 @@
                </div>
             </div>
          </section>
-    
+
       </div>
    </div>
 
