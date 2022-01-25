@@ -11,6 +11,8 @@ use DB;
 use Redirect;
 
 use App\Event;
+use App\Exports\StokObatExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DataController extends Controller
 {
@@ -176,5 +178,10 @@ class DataController extends Controller
                 ->get();
         }
         return response()->json($movies);
+    }
+
+    public function fileExport($id)
+    {
+        return Excel::download(new StokObatExport($id), 'StokObat.xlsx');
     }
 }

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\StokObatExport;
 use Illuminate\Http\Request;
 use App\Models\StokObatModel;
 use DB;
+use Maatwebsite\Excel\Facades\Excel;
 use Sum;
 
 class StokObatController extends Controller
@@ -19,6 +21,8 @@ class StokObatController extends Controller
     {
 
         $obat = $this->Obat->getSobat()
+        ->join('obat','stok_obat.kode_obat','=','obat.id')
+        ->select('stok_obat.*','obat.name')
         ->get();
         return view('stok-obat',['obat' => $obat]);
     }
@@ -29,8 +33,8 @@ class StokObatController extends Controller
         return view('tambah-stok-obat',compact('kode'));
     }
 
-    public function getObat($id)    
-    {        
+    public function getObat($id)
+    {
         $obat = DB::table("obat")->where("kd_obat",$id)->pluck("name","id");
         return json_encode($obat);
     }
@@ -48,13 +52,13 @@ class StokObatController extends Controller
                 'stok_awal'  => $request->stok_awal,
                 'stok_akhir' => $request->stok_awal,
                 "created_at" => $tanggal,
-          
+
             ]);
 
             return redirect('/stok-obat')->with('toast_warning', 'Data obat sudah ada !');
 
         }
-        
+
        return redirect('/tambah-stok');
     }
 
@@ -71,33 +75,33 @@ class StokObatController extends Controller
 
     public function storeTambahan(Request $request)
     {
-       
+
         $cek        = $this->Obat->getSobat()->where('id',$request->id_stok)->pluck('tambahan');
-        
+
         // dd($cek);
         if ($cek === null){
             $cekobat        = $this->Obat->getSobat()->where('id',$request->id_stok)->get();
             $jumlah         = $request->jumlah;
             $stok_akhir     = $cekobat[0]->stok_akhir;
-            $sekarang       = $jumlah + $stok_akhir;             
-           
+            $sekarang       = $jumlah + $stok_akhir;
+
             $updateobat = $this->Obat->getSobat()->where('id',$request->id_stok)->update([
                 'tambahan'   => $request->jumlah,
-                'stok_akhir' => $sekarang, 
+                'stok_akhir' => $sekarang,
                 "updated_at" => $tanggal,
-          
+
             ]);
 
-           
+
             $obat = $this->Obat->getTambahan()->insert([
                 'id'         => $request->id,
                 'id_stok'    => $request->id_stok,
                 'jumlah'     => $request->jumlah,
-                "created_at" =>  \Carbon\Carbon::now(), 
-          
+                "created_at" =>  \Carbon\Carbon::now(),
+
             ]);
 
-           
+
 
             return redirect('/stok-obat');
 
@@ -108,25 +112,25 @@ class StokObatController extends Controller
             $stok_akhir     = $cekobat[0]->stok_akhir;
             $jumlah         = $request->jumlah;
             $tambah         = $sebelumnya + $jumlah;
-            $sekarang       = $jumlah + $stok_akhir;      
+            $sekarang       = $jumlah + $stok_akhir;
 
             $obat = $this->Obat->getTambahan()->insert([
                 'id'         => $request->id,
                 'id_stok'    => $request->id_stok,
                 'jumlah'     => $request->jumlah,
                 "created_at" => $tanggal,
-          
+
             ]);
-          
+
             $tanggal = date('Y-m-d');
             $updateobat = $this->Obat->getSobat()->where('id',$request->id_stok)->update([
                 'tambahan'   => $tambah,
-                'stok_akhir' => $sekarang, 
+                'stok_akhir' => $sekarang,
                 "updated_at" => $tanggal,
-          
+
             ]);
-           
-            
+
+
             return redirect('/stok-obat')->with('toast_warning', 'Data obat sudah ada !');
 
         }
@@ -143,7 +147,7 @@ class StokObatController extends Controller
         return view('tambahan-stok',['tambahan'=>$tambahan]);
 
     }
-    
+
     public function hapus($id)
     {
         $obat = $this->Obat->getSobat()->where('id',$id)->delete();

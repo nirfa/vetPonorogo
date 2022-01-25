@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\DataController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Select2SearchController;
+use App\Http\Controllers\StokObatController;
 use Illuminate\Http\Request;
 use App\Models\Pemakaian_stok;
 /*
@@ -29,14 +31,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/penyimpanan/c3','\App\Http\Controllers\PenyimpananController@indexC3');
 
     Route::post('/submit/penyakit','\App\Http\Controllers\DataController@store');
-    
+
     Route::get('/edit/penyakit/{id}','\App\Http\Controllers\DataController@viewDetail');
     Route::post('/submit/edit-penyakit/{id}','\App\Http\Controllers\DataController@editPenyakit');
     Route::get('/hapus/penyakit/{id}','\App\Http\Controllers\DataController@hapusPenyakit');
     Route::get('/detail/pemilik/{id}','\App\Http\Controllers\PemilikController@detail');
     Route::post('/submit/edit-pemilik','\App\Http\Controllers\PemilikController@editPemilik');
-    
-    
+
+
     Route::view('/penyakit','penyakit');
     Route::get('/tambah-pasien','\App\Http\Controllers\HewanController@index');
     Route::get('/pemilik-search', '\App\Http\Controllers\HewanController@selectSearch');
@@ -46,7 +48,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/kategori/breed/{id}','\App\Http\Controllers\HewanController@getBreed');
     Route::post('/submit/pemilik','\App\Http\Controllers\PemilikController@store');
     Route::view('/tambah-pemilik','tambah-pemilik');
-    
+
     Route::view('/tambah-penyakit','tambah-penyakit');
 
     Route::get('/stok-obat','\App\Http\Controllers\StokObatController@index');
@@ -71,8 +73,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/ah', function () {
         return view('welcome');
     })->name('task');
-   
 
+    Route::get('file-export/{id}', [DataController::class, 'fileExport'])->name('file-export');
 
 });
 

@@ -47,7 +47,8 @@
                               <thead>
                                     <tr>
                                        <th>No</th>
-                                       <th>Kode</th>
+                                       <th>Kode Obat</th>
+                                       <th>Nama Obat</th>
                                        <th>Stok Awal</th>
                                        <th>Tambahan</th>
                                        <th>Stok Saat Ini</th>
@@ -60,10 +61,11 @@
                                     $no=1;
                                  @endphp
                                  @foreach ($obat as $o )
-                                 <tbody>                                                              
+                                 <tbody>
                                     <tr>
                                        <td>{{$no++}}</td>
                                        <td>{{$o -> kode_obat }}</td>
+                                       <td>{{$o -> name }}</td>
                                        <td>{{$o -> stok_awal}}</td>
                                        <td>{{$o -> tambahan }}</td>
                                        <td>{{$o -> stok_akhir}}</td>
@@ -90,8 +92,8 @@
                      </div>
                      <?php
 							$count = DB::table('hewan')->count();
-						   ?> 
-                   
+						   ?>
+
                      </div>
                   </div>
                </div>
