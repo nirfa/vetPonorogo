@@ -18,84 +18,102 @@ class DataController extends Controller
     public function __construct()
     {
         $this->Hewan    = new HewanModel();
-        $this->Penyakit = new PenyakitModel(); 
+        $this->Penyakit = new PenyakitModel();
         $this->Obat     = new StokObatModel();
-        $this->Pemakaian= new Pemakaian_stok();
+        $this->Pemakaian = new Pemakaian_stok();
     }
 
-    public function index(){
-       
+    public function index()
+    {
+
         $data = $this->Hewan->getData()
-        ->join('pemilik','hewan.id_pemilik','=','pemilik.id')
-        ->join('no_simpan','hewan.id_simpan','=','no_simpan.id')
-        ->join('breed','hewan.id_breed','=','breed.id')
-        ->join('kategori','breed.id_ktg','=','kategori.id')
-        ->select('hewan.id AS id_hewan', DB::raw( 'hewan.*' ),
-                 'pemilik.nama AS namaP', DB::raw( 'pemilik.*' ),
-                 'no_simpan.nama AS namaS',
-                 'breed.nama AS namaB',
-                 'kategori.nama AS namaK')
-        ->orderBy('hewan.id', 'DESC')
-        ->paginate(10);
+            ->join('pemilik', 'hewan.id_pemilik', '=', 'pemilik.id')
+            ->join('no_simpan', 'hewan.id_simpan', '=', 'no_simpan.id')
+            ->join('breed', 'hewan.id_breed', '=', 'breed.id')
+            ->join('kategori', 'breed.id_ktg', '=', 'kategori.id')
+            ->select(
+                'hewan.id AS id_hewan',
+                DB::raw('hewan.*'),
+                'pemilik.nama AS namaP',
+                DB::raw('pemilik.*'),
+                'no_simpan.nama AS namaS',
+                'breed.nama AS namaB',
+                'kategori.nama AS namaK'
+            )
+            ->orderBy('hewan.id', 'DESC')
+            ->paginate(5);
 
-        return view ('data-pasien',['data' => $data]);
+        return view('data-pasien', ['data' => $data]);
     }
 
 
-    public function detail($id){
+    public function detail($id)
+    {
         $detail = $this->Hewan->getData()
-        ->join('pemilik','hewan.id_pemilik','=','pemilik.id')
-        ->join('no_simpan','hewan.id_simpan','=','no_simpan.id')
-        ->join('breed','hewan.id_breed','=','breed.id')
-        ->join('kategori','breed.id_ktg','=','kategori.id')
-        ->select('hewan.id AS id_hewan','hewan.nama AS namaH', DB::raw( 'hewan.*' ),
-                 'pemilik.nama As namaP','pemilik.id AS id_pemilik',DB::raw( 'pemilik.*' ),
-                 'no_simpan.nama AS namaS',
-                 'breed.nama AS namaB',
-                 'kategori.nama AS namaK')
-        ->where('hewan.id',$id)
-        ->get();
+            ->join('pemilik', 'hewan.id_pemilik', '=', 'pemilik.id')
+            ->join('no_simpan', 'hewan.id_simpan', '=', 'no_simpan.id')
+            ->join('breed', 'hewan.id_breed', '=', 'breed.id')
+            ->join('kategori', 'breed.id_ktg', '=', 'kategori.id')
+            ->select(
+                'hewan.id AS id_hewan',
+                'hewan.nama AS namaH',
+                DB::raw('hewan.*'),
+                'pemilik.nama As namaP',
+                'pemilik.id AS id_pemilik',
+                DB::raw('pemilik.*'),
+                'no_simpan.nama AS namaS',
+                'breed.nama AS namaB',
+                'kategori.nama AS namaK'
+            )
+            ->where('hewan.id', $id)
+            ->get();
 
-        $penyakit = $this->Penyakit->getData()->where('id_hewan',$id)->paginate(7);
+        $penyakit = $this->Penyakit->getData()->where('id_hewan', $id)->paginate(7);
 
-        return view ('penyakit',['detail' => $detail,
-                                 'penyakit' => $penyakit
-                                ]);
-        
+        return view('penyakit', [
+            'detail' => $detail,
+            'penyakit' => $penyakit
+        ]);
     }
 
-    public function viewAdd($id){
+    public function viewAdd($id)
+    {
         $detail = $this->Hewan->getData()
-        ->join('pemilik','hewan.id_pemilik','=','pemilik.id')
-        ->join('no_simpan','hewan.id_simpan','=','no_simpan.id')
-        ->join('breed','hewan.id_breed','=','breed.id')
-        ->join('kategori','breed.id_ktg','=','kategori.id')
-        ->select('hewan.nama AS namaH','hewan.id AS id_hewan',DB::raw( 'hewan.*' ),
-                 'pemilik.nama As namaP',DB::raw( 'pemilik.*' ),
-                 'no_simpan.nama AS namaS',
-                 'breed.nama AS namaB',
-                 'kategori.nama AS namaK')
-        ->where('hewan.id',$id)
-        ->get();
+            ->join('pemilik', 'hewan.id_pemilik', '=', 'pemilik.id')
+            ->join('no_simpan', 'hewan.id_simpan', '=', 'no_simpan.id')
+            ->join('breed', 'hewan.id_breed', '=', 'breed.id')
+            ->join('kategori', 'breed.id_ktg', '=', 'kategori.id')
+            ->select(
+                'hewan.nama AS namaH',
+                'hewan.id AS id_hewan',
+                DB::raw('hewan.*'),
+                'pemilik.nama As namaP',
+                DB::raw('pemilik.*'),
+                'no_simpan.nama AS namaS',
+                'breed.nama AS namaB',
+                'kategori.nama AS namaK'
+            )
+            ->where('hewan.id', $id)
+            ->get();
 
-        $penyakit = $this->Penyakit->getData()->where('id_hewan',$id)->get();
+        $penyakit = $this->Penyakit->getData()->where('id_hewan', $id)->get();
 
 
-        $kode = DB::table('kode_obat')->pluck("name","id");
+        $kode = DB::table('kode_obat')->pluck("name", "id");
 
-        return view ('tambah-penyakit',['detail' => $detail, 'kode' => $kode]);
-
+        return view('tambah-penyakit', ['detail' => $detail, 'kode' => $kode]);
     }
 
-    public function getObat($id)    
-    {        
-        $obat = DB::table("obat")->where("kd_obat",$id)->pluck("name","id");
+    public function getObat($id)
+    {
+        $obat = DB::table("obat")->where("kd_obat", $id)->pluck("name", "id");
         return json_encode($obat);
     }
 
 
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
         $penyakit = $this->Penyakit->getData()->insert([
             'id'        => $request->id,
@@ -104,60 +122,59 @@ class DataController extends Controller
             'hasil_priksa' => $request->hasil_priksa,
             'diagnosa' => $request->diagnosa,
             'terapi' => $request->terapi,
-            "created_at" =>  \Carbon\Carbon::now(), 
+            "created_at" =>  \Carbon\Carbon::now(),
             "updated_at" => \Carbon\Carbon::now(),
-      
+
         ]);
 
         $akhir = DB::table('status_pasien')->orderBy('id', 'DESC')->first();
-        $direct =$akhir->id;
+        $direct = $akhir->id;
         // dd($akhir, $direct);
-        return redirect('/tambah/pemakaian-obat/'.$direct)->with('success', 'Data Berhasil di Tambahkan ! Silahkan Tambahkan Data Obat Untuk Rekap');
-        
+        return redirect('/tambah/pemakaian-obat/' . $direct)->with('success', 'Data Berhasil di Tambahkan ! Silahkan Tambahkan Data Obat Untuk Rekap');
     }
 
-    public function viewDetail($id){
-        $penyakit = $this->Penyakit->getData()->where('id',$id)->get();
+    public function viewDetail($id)
+    {
+        $penyakit = $this->Penyakit->getData()->where('id', $id)->get();
 
-        return view('edit-penyakit',['penyakit' => $penyakit]);
-
+        return view('edit-penyakit', ['penyakit' => $penyakit]);
     }
 
-    
-    public function editPenyakit(Request $request,$id){
 
-        $penyakit = $this->Penyakit->getData()->where('id',$id)->update([
+    public function editPenyakit(Request $request, $id)
+    {
+
+        $penyakit = $this->Penyakit->getData()->where('id', $id)->update([
             'id_hewan' => $request->id_hewan,
             'anamnesa' => $request->anamnesa,
             'hasil_priksa' => $request->hasil_priksa,
             'diagnosa' => $request->diagnosa,
             'terapi' => $request->terapi,
-            "created_at" =>  \Carbon\Carbon::now(), 
+            "created_at" =>  \Carbon\Carbon::now(),
             "updated_at" => \Carbon\Carbon::now(),
         ]);
 
         return Redirect::route('detailpasien', ['id' => $request->id_hewan])->with('message', 'State saved correctly!!!');
     }
 
-    public function hapusPenyakit($id){
-        $penyakit = $this->Penyakit->getData()->where('id',$id)->delete();
+    public function hapusPenyakit($id)
+    {
+        $penyakit = $this->Penyakit->getData()->where('id', $id)->delete();
 
         return redirect()->back();
     }
 
     public function selectSearch(Request $request)
     {
-    	$movies = [];
+        $movies = [];
 
-        if($request->has('q')){
+        if ($request->has('q')) {
             $search = $request->q;
             $movies = $this->Obat->getSobat()
-            ->join('obat','stok_obat.kode_obat','=','obat.id')
-            ->where('obat.name', 'LIKE', "%$search%")
-            ->get();
+                ->join('obat', 'stok_obat.kode_obat', '=', 'obat.id')
+                ->where('obat.name', 'LIKE', "%$search%")
+                ->get();
         }
         return response()->json($movies);
     }
-  
-
 }
