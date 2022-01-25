@@ -15,6 +15,11 @@
                     Tambah Pasien
                 </button>
             </a>
+            <a href="{{ route('download-pasien') }}">
+                <button class="btn btn-success">
+                    Download data
+                </button>
+            </a>
             <div class="float-end">
                 <a href="/data-pasien">
                     <button class=" btn btn-secondary active " style="margin-right:10px;">ALL</button>

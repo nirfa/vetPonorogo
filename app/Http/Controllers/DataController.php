@@ -11,6 +11,7 @@ use DB;
 use Redirect;
 
 use App\Event;
+use App\Exports\DataPasienAllExport;
 use App\Exports\StokObatExport;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -183,5 +184,10 @@ class DataController extends Controller
     public function fileExport($id)
     {
         return Excel::download(new StokObatExport($id), 'StokObat.xlsx');
+    }
+
+    public function Dpasien()
+    {
+        return Excel::download(new DataPasienAllExport(), 'DataPasienAll.xlsx');
     }
 }

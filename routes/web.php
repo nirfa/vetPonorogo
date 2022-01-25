@@ -75,6 +75,7 @@ Route::middleware(['auth'])->group(function () {
     })->name('task');
 
     Route::get('file-export/{id}', [DataController::class, 'fileExport'])->name('file-export');
+    Route::get('download-pasien', [DataController::class, 'DPasien'])->name('download-pasien');
 
 });
 
