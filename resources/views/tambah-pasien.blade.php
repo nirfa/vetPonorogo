@@ -85,13 +85,9 @@
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group row">
                                                     <label for="email-id-column">Umur</label>
-                                                    <div class="col-6">
-                                                        <input type="number" id="tahun" class="form-control" name="tahun"
-                                                            placeholder="Tahun">
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <input type="number" id="bulan" class="form-control" name="bulan"
-                                                            placeholder="Bulan">
+                                                    <div class="col-12">
+                                                        <input type="text" id="umur" class="form-control" name="umur"
+                                                            placeholder="umur" readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -197,16 +193,36 @@
     </script>
     <script>
         $(function() {
-            $("#datepicker").datepicker();
+            $("#datepicker").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                showAnim: 'slideDown',
+                dateFormat: 'yy-mm-dd'
+            });
         });
 
         window.onload = function() {
             $('#datepicker').on('change', function() {
-                var dob = new Date(this.value);
-                var today = new Date();
-                var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));
-                $('#umur').val(age + " tahun");
+                var age = getAge(this);
+                // console.log(age);
+                // var dob = new Date(this.value);
+                // console.log(this.value);
+                // var today = new Date();
+                // var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));
+                $('#umur').val(age);
             });
+        }
+
+        function getAge(dateVal) {
+            var
+                birthday = new Date(dateVal.value),
+                today = new Date(),
+                ageInMilliseconds = new Date(today - birthday),
+                years = ageInMilliseconds / (24 * 60 * 60 * 1000 * 365.25),
+                months = 12 * (years % 1),
+                days = Math.floor(30 * (months % 1));
+            return Math.floor(years) + ' tahun ' + Math.floor(months) + ' bulan ' + days + ' hari';
+
         }
     </script>
 @endsection
