@@ -2,11 +2,11 @@
     <thead>
         <tr>
             <th>No</th>
-            <th>Obat</th>
-            <th>Pasien</th>
-            <th>Alamat</th>
-            <th>Jumlah</th>
+            <th>Nama Obat</th>
+            <th>Kode Obat</th>
             <th>Tanggal</th>
+            <th>Jumlah</th>
+            <th>Total</th>
         </tr>
     </thead>
     <tbody>
@@ -14,10 +14,10 @@
             <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $p->name }}</td>
-                <td>{{ $p->nama }}</td>
-                <td>{{ $p->alamat }}</td>
-                <td>{{ $p->jumlah }}</td>
-                <td>{{ date('d-m-y', strtotime($p->created_at)) }}</td>
+                <td>{{ $p->kode_obat }}</td>
+                <td>{{ $p->tanggal }}</td>
+                <td>{{ $p->total }}</td>
+                <td>{{ $p->harga_total }}</td>
             </tr>
         @endforeach
     </tbody>
