@@ -16,6 +16,7 @@ use App\Exports\DataLaporanObatExport;
 use App\Exports\DataPasienAllExport;
 use App\Exports\DataPemakaianObatExport;
 use App\Exports\StokObatExport;
+use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 
 class DataController extends Controller
@@ -186,26 +187,59 @@ class DataController extends Controller
 
     public function fileExport($id)
     {
-        return Excel::download(new StokObatExport($id), 'StokObat.xlsx');
+        $hewan = $this->Hewan->getData()
+            ->join('pemilik', 'hewan.id_pemilik', '=', 'pemilik.id')
+            ->join('no_simpan', 'hewan.id_simpan', '=', 'no_simpan.id')
+            ->join('breed', 'hewan.id_breed', '=', 'breed.id')
+            ->join('kategori', 'breed.id_ktg', '=', 'kategori.id')
+            ->select(
+                'hewan.id AS id_hewan',
+                'hewan.nama AS namaH',
+                DB::raw('hewan.*'),
+                'pemilik.nama As namaP',
+                'pemilik.id AS id_pemilik',
+                DB::raw('pemilik.*'),
+                'no_simpan.nama AS namaS',
+                'breed.nama AS namaB',
+                'kategori.nama AS namaK'
+            )
+            ->where('hewan.id', $id)
+            ->first();
+        $date = Carbon::now()->format('_m_Y');
+        $name = 'Laporan_riwayat_periksa_' . $hewan->namaH . '_' . $hewan->namaP . $date . '.xlsx';
+        Excel::store(new StokObatExport($id), 'public/laporan/' . $name);
+        return Excel::download(new StokObatExport($id), $name);
     }
 
     public function Dpasien()
     {
-        return Excel::download(new DataPasienAllExport(), 'DataPasienAll.xlsx');
+        $date = Carbon::now()->format('_m_Y');
+        $name = 'Laporan_data_pasien' . $date . '.xlsx';
+        Excel::store(new DataPasienAllExport(), 'public/laporan/' . $name);
+        return Excel::download(new DataPasienAllExport(), $name);
     }
 
     public function DLaporanObat()
     {
-        return Excel::download(new DataLaporanObatExport(), 'DataLaporanObat.xlsx');
+        $date = Carbon::now()->format('_m_Y');
+        $name = 'Laporan_obat' . $date . '.xlsx';
+        Excel::store(new DataLaporanObatExport(), 'public/laporan/' . $name);
+        return Excel::download(new DataLaporanObatExport(), $name);
     }
 
     public function DPemakaianObat()
     {
-        return Excel::download(new DataPemakaianObatExport(), 'DataPemakaianObat.xlsx');
+        $date = Carbon::now()->format('_m_Y');
+        $name = 'Laporan_pemakaian_obat' . $date . '.xlsx';
+        Excel::store(new DataPemakaianObatExport(), 'public/laporan/' . $name);
+        return Excel::download(new DataPemakaianObatExport(), $name);
     }
 
     public function DKeuangan()
     {
-        return Excel::download(new DataLaporanKeuanganExport(), 'DataLaporanKeuangan.xlsx');
+        $date = Carbon::now()->format('_m_Y');
+        $name = 'Laporan_keuangan' . $date . '.xlsx';
+        Excel::store(new DataLaporanKeuanganExport(), 'public/laporan/' . $name);
+        return Excel::download(new DataLaporanKeuanganExport(), $name);
     }
 }
