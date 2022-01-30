@@ -68,15 +68,18 @@
                                 <li class="submenu-item @yield('tambahan-stok') ">
                                     <a href="/tambahan-stok">Tambahan Stok</a>
                                 </li>
-                                <li class="submenu-item ">
-                                    <a href="form-editor-tinymce.html">Download Rekap </a>
-                                </li>
                             </ul>
                         </li>
                         <li class="sidebar-item @yield('keuangan')">
-                            <a href="{{ route('download-laporan-keuangan') }}" class="sidebar-link">
+                            <a href="/keuangan" class="sidebar-link">
                                 <i class="bi bi-cash"></i>
                                 <span>Keuangan</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item @yield('keuangan')">
+                            <a href="/keuangan" class="sidebar-link">
+                                <i class="bi bi-archive-fill"></i>
+                                <span>Riwayat Download</span>
                             </a>
                         </li>
                         <li class="sidebar-item  ">

@@ -25,7 +25,8 @@ class DataPasienAllExport implements FromView
         ->join('breed', 'hewan.id_breed', '=', 'breed.id')
         ->join('kategori', 'breed.id_ktg', '=', 'kategori.id')
         ->select(
-            'hewan.id AS id_hewan',
+            'hewan.id AS id_hewan', 
+            'hewan.nama AS namaH',
             DB::raw('hewan.*'),
             'pemilik.nama AS namaP',
             DB::raw('pemilik.*'),

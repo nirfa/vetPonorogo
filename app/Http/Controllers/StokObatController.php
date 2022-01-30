@@ -41,6 +41,22 @@ class StokObatController extends Controller
 
     public function tambah(Request $request)
     {
+        $pesan = [
+            'required' => ':attribute wajib diisi !',
+            'min' => ':attribute harus diisi minimal :min karakter !',
+            'max' => ':attribute harus diisi maksimal :max karakter !',
+            'numeric' => ':attribute harus diisi angka !',
+        ];
+
+        $this->validate($request,[
+            'kode_obat'     => 'required',
+            'satuan'        => 'required',
+            'stok_awal'     => 'required',
+            'harga_dasar'   => 'required',
+            'stok_akhir'    => 'required',
+            
+         ],$pesan);
+
         $cek      = $this->Obat->getSobat()->where('kode_obat', $request->kode_obat)->get();
         $tanggal = date('Y-m-d');
 
@@ -75,6 +91,17 @@ class StokObatController extends Controller
 
     public function storeTambahan(Request $request)
     {
+        $pesan = [
+            'required' => ':attribute wajib diisi !',
+            'min' => ':attribute harus diisi minimal :min karakter !',
+            'max' => ':attribute harus diisi maksimal :max karakter !',
+            'numeric' => ':attribute harus diisi angka !',
+        ];
+
+        $this->validate($request,[
+            'jumlah'     => 'required',
+            
+         ],$pesan);
 
         $cek        = $this->Obat->getSobat()->where('id', $request->id_stok)->pluck('tambahan');
 

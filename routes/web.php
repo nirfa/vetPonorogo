@@ -47,6 +47,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/detail/pasien/{id}', '\App\Http\Controllers\HewanController@detail');
     Route::post('/submit/edit-pasien/{id}', '\App\Http\Controllers\HewanController@editPasien');
     Route::get('/kategori/breed/{id}', '\App\Http\Controllers\HewanController@getBreed');
+
+
+    Route::get('/tambah-jenisH','\App\Http\Controllers\HewanController@viewTambahJenis');
+    Route::post('/submit/breed','\App\Http\Controllers\HewanController@storeBreed');
+    Route::post('/submit/kategori','\App\Http\Controllers\HewanController@storeKategori');
+
     Route::post('/submit/pemilik', '\App\Http\Controllers\PemilikController@store');
     Route::view('/tambah-pemilik', 'tambah-pemilik');
 
@@ -65,6 +71,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pemakaian-obat', '\App\Http\Controllers\PemakaianObatController@index');
     Route::post('/ah', '\App\Http\Controllers\PemakaianObatController@storePemakaianObat');
     Route::get('/tambah/pemakaian-obat/{id}', '\App\Http\Controllers\PemakaianObatController@view');
+
+    Route::get('/keuangan','\App\Http\Controllers\KeuanganController@view');
 
 
     Route::get('/search', [Select2SearchController::class, 'index']);

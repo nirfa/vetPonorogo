@@ -16,6 +16,11 @@
                     Tambah Pemilik Baru
                 </button>
             </a>
+            <a href="/tambah-jenisH">
+                <button class="btn btn-dark">
+                    Tambah Jenis Hewan
+                </button>
+            </a>
         </div>
         @if ($message = Session::get('success'))
             <div class="alert alert-light-success color-success"><i class="bi bi-check-circle"></i> {{ $message }} </div>
@@ -139,7 +144,16 @@
                     </div>
                 </div>
             </section>
-
+            @if (count($errors) > 0)
+            
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         </div>
     </div>
 

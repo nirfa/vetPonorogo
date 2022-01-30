@@ -12,74 +12,7 @@
             <h3>Stok Obat</h3>
       </div>
       <div class="page-content">
-      <!-- <section id="basic-horizontal-layouts">
-            <div class="row match-height">
-               <div class="col-md-7 col-12">
-                     <div class="card">
-                        <div class="card-header">
-                           <h4 class="card-title">Tambah Stok Obat</h4>
-                        </div>
-                        <div class="card-content">
-                           <div class="card-body">
-                                 <form class="form form-horizontal" method="post" action="/tambah/jenis-obat" enctype="multipart/form-data" >
-                                    @csrf
-                                    <div class="form-body">
-                                       <div class="row">
-                                             <div class="col-md-4">
-                                                <label>Pilih Kode</label>
-                                             </div>
-                                             <div class="col-md-4 form-group mr-3">
-                                             <select name="kode"  class="form-select" id="basicSelect" style="width:190px">
-                                                <option value="">Kode</option>
-                                                @foreach ($kode as $key => $value)
-                                                <option value="{{ $key }}">{{ $value }}</option>
-                                                @endforeach
-                                             </select>
-                                             </div>
-
-                                             <div class="col-md-2 form-group">
-                                                <input type="text" id="email-id" class="form-control" name="stok_awal" >
-                                             </div>
-
-
-                                             <div class="col-md-4">
-                                                <label>Satuan</label>
-                                             </div>
-                                             <div class="col-md-8 form-group">
-                                                 <select name="satuan" class="form-select" id="basicSelect">
-                                                    <option value="Ampul">Ampul</option>
-                                                    <option value="Buah">Buah</option>
-                                                    <option value="Botol">Botol</option>
-                                                    <option value="Cm">Cm</option>
-                                                    <option value="Kaplet">Kaplet</option>
-                                                    <option value="kapsul">Kapsul</option>
-                                                    <option value="Ml">Ml</option>
-                                                    <option value="Tablet">Tablet</option>
-                                                    <option value="Tube">Tube</option>
-                                                </select>
-                                             </div>
-                                             <div class="col-md-4">
-                                                <label>Nama Obat</label>
-                                             </div>
-                                             <div class="col-md-8 form-group">
-                                                <input type="text" id="email-id" class="form-control" name="stok_awal" >
-                                             </div>
-
-
-                                             <div class="col-sm-12 d-flex justify-content-end">
-
-                                                <button type="submit" class="btn btn-primary me-1 mb-1">Tambah</button>
-
-                                             </div>
-                                       </div>
-                                    </div>
-                                 </form>
-                           </div>
-                        </div>
-                     </div>
-               </div>
-            </div>
-         </section> -->
+     
          <section id="basic-horizontal-layouts">
             <div class="row match-height">
                <div class="col-md-7 col-12">

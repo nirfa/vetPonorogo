@@ -11,6 +11,16 @@
       <div class="page-heading">
             <h3>Stok Obat</h3>
       </div>
+      @if (count($errors) > 0)
+            
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
       <div class="page-content">
          <section id="basic-horizontal-layouts">
             <div class="row match-height">

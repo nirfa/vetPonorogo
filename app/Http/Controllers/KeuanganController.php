@@ -1,25 +1,21 @@
 <?php
 
-namespace App\Exports;
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
 
 use App\Models\Pemakaian_stok;
 use App\Models\StokObatModel;
-use Illuminate\Contracts\View\View;
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\FromView;
 
-class DataLaporanKeuanganExport implements FromView
+class KeuanganController extends Controller
 {
-    /**
-     * @return \Illuminate\Support\Collection
-     */
     public function __construct()
     {
         $this->Obat  = new StokObatModel();
         $this->pemakaian  = new Pemakaian_stok();
     }
-    
-    public function view(): View
+
+    public function view()
     {
         $obat = $this->Obat->getSobat()
             ->join('obat', 'stok_obat.kode_obat', '=', 'obat.id')
@@ -39,6 +35,7 @@ class DataLaporanKeuanganExport implements FromView
             $obats->jumlah_pemakaian = $total;
             $obats->harga_terpakai = $total * $obats->harga_dasar;
         }
-        return view('export.data-laporan-keuangan', ['data' => $obat]);
+
+        return view('keuangan', ['data' => $obat]);
     }
 }

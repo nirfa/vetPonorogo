@@ -40,6 +40,7 @@ class DataController extends Controller
             ->join('kategori', 'breed.id_ktg', '=', 'kategori.id')
             ->select(
                 'hewan.id AS id_hewan',
+                'hewan.nama AS namaH',
                 DB::raw('hewan.*'),
                 'pemilik.nama AS namaP',
                 DB::raw('pemilik.*'),
@@ -48,7 +49,7 @@ class DataController extends Controller
                 'kategori.nama AS namaK'
             )
             ->orderBy('hewan.id', 'DESC')
-            ->paginate(5);
+            ->paginate(10);
 
         return view('data-pasien', ['data' => $data]);
     }

@@ -93,9 +93,9 @@
                                                 <td>{{ $d->namaS }}</td>
                                                 <td>{{ $d->id_hewan }}</td>
                                                 <td>{{ Str::limit($d->alamat, 15) }}</td>
-                                                <td>{{ $d->nama }}</td>
+                                                <td>{{ $d->namaH }}</td>
                                                 <td>{{ $d->jenis_kelamin }}</td>
-                                                <td>{{ $d->namaB }}</td>
+                                                <td>{{ $d->namaK }}</td>
                                                 <td>{{ $d->namaP }}</td>
                                                 <td>
                                                     <a href="/detailpasien/{{ $d->id_hewan }}" class="btn btn-info m-1">
