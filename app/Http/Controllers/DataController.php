@@ -122,6 +122,20 @@ class DataController extends Controller
 
     public function store(Request $request)
     {
+        $pesan = [
+            'required' => ':attribute wajib diisi !',
+            'min' => ':attribute harus diisi minimal :min karakter !',
+            'max' => ':attribute harus diisi maksimal :max karakter !',
+            'numeric' => ':attribute harus diisi angka !',
+        ];
+
+        $this->validate($request,[
+            'anamnesa' => 'required',
+            'hasil_priksa' => 'required',
+            'diagnosa' => 'required',
+            'terapi' => 'required',
+            
+         ],$pesan);
 
         $penyakit = $this->Penyakit->getData()->insert([
             'id'        => $request->id,

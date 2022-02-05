@@ -126,13 +126,13 @@
                     </div>
                     @endforeach
                     <thead>
-                        <th>No</th>
-                        <th>Tanggal</th>
-                        <th>Anamnesa</th>
-                        <th>Hasil Pemeriksaan</th>
-                        <th>Diagnosa</th>
-                        <th>Terapi</th>
-                        <th>Aksi</th>
+                        <th width="2%">No</th>
+                        <th width="8%">Tanggal</th>
+                        <th width="20%">Anamnesa</th>
+                        <th width="20%">Hasil Pemeriksaan</th>
+                        <th width="20%">Diagnosa</th>
+                        <th width="20%">Terapi</th>
+                        <th width="10%">Aksi</th>
                     </thead>
                     @php
                         $no=1;
@@ -142,10 +142,10 @@
                         <tr>
                             <td>{{$no++}}</td>
                             <td>{{date('d-m-y', strtotime($p -> created_at)) }}</td>
-                            <td>{{$p->anamnesa}}</td>
-                            <td>{{$p->hasil_priksa}}</td>
-                            <td>{{$p->diagnosa}}</td>
-                            <td>{{$p->terapi}}</td>
+                            <td><?php echo nl2br(htmlspecialchars($p->anamnesa))?></td>
+                            <td><?php echo nl2br(htmlspecialchars($p->hasil_priksa))?></td>
+                            <td><?php echo nl2br(htmlspecialchars($p->diagnosa))?></td>
+                            <td><?php echo nl2br(htmlspecialchars($p->terapi))?></td>
                             <td>
                                 <a href="/edit/penyakit/{{$p->id}}" type="button" class="btn btn-warning mb-1" title="Detail & Edit">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">

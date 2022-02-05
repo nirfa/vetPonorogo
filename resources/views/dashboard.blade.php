@@ -64,6 +64,25 @@
                         {{-- </a> --}}
                     </div>
 
+                    <div class="col-6 col-lg-4 col-md-6">
+                        <a href="#"> 
+                            <div class="card">
+                                <div class="card-body px-3 py-4-5">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="stats-icon green">
+                                                <i class="iconly-boldDownload"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <h6 class="text-muted font-semibold">Download Seluruh Rekap Data</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
                     <!-- <div class="col-6 col-lg-4 col-md-6">
                         {{-- <a href=""> --}}
                             <div class="card">

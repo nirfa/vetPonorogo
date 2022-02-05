@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('pemakaian-obat', 'active')
+@section('keuangan', 'active')
 @section('content')
 
     <div id="main">

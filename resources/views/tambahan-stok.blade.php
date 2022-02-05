@@ -9,7 +9,7 @@
             </a>
       </header>
       <div class="page-heading">
-            <h3>Data Pemakaian Obat</h3>
+            <h3>Rekap Tambahan Stok</h3>
             <!-- <a href="/tambah-stok">
                <button  class="btn btn-success">
                  Tambah Stok Obat Baru
