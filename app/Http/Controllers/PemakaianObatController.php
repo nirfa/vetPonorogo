@@ -6,6 +6,7 @@ use App\Models\Pemakaian_stok;
 use App\Models\PenyakitModel;
 use App\Models\StokObatModel;
 use Illuminate\Http\Request;
+use DB;
 
 class PemakaianObatController extends Controller
 {
@@ -80,5 +81,24 @@ class PemakaianObatController extends Controller
     {
         $penyakit = $this->Penyakit->getData()->where('id', $id)->get();
         return view('tambah-pemakaian-obat', ['penyakit' => $penyakit]);
+    }
+
+    public function cek(Request $request)
+    {
+        $dari   = $request->tgl_mulai;
+        $ke     = $request->tgl_selesai;
+
+        $pemakaian = $this->Pemakaian->getData()
+        ->join('stok_obat', 'pemakaian_stoks.id_stok', '=', 'stok_obat.id')
+        ->join('obat', 'stok_obat.kode_obat', '=', 'obat.id')
+        ->join('status_pasien', 'pemakaian_stoks.id_status', '=', 'status_pasien.id')
+        ->join('hewan', 'status_pasien.id_hewan', '=', 'hewan.id')
+        ->join('pemilik', 'pemilik.id', '=', 'hewan.id_pemilik')
+        ->select('obat.name', 'hewan.nama', 'pemakaian_stoks.*', 'pemilik.alamat')
+        ->whereBetween(DB::raw('DATE(pemakaian_stoks.created_at)'), [$dari, $ke])
+        ->get();
+
+        return view('pemakaian-obat',['pemakaian' => $pemakaian]);
+      
     }
 }

@@ -11,6 +11,9 @@
       <div class="page-heading">
             <h3>Stok Obat</h3>
       </div>
+      @if ($message = Session::get('success'))
+         <div class="alert alert-light-success color-success"><i class="bi bi-check-circle"></i> {{ $message }} </div>
+      @endif
       <div class="page-content">
      
          <section id="basic-horizontal-layouts">
@@ -50,6 +53,7 @@
                                              </div>
                                              <div class="col-md-8 form-group">
                                                  <select name="satuan" class="form-select" id="basicSelect">
+                                                    <option value="0">Pilih satuan</option>
                                                     <option value="Ampul">Ampul</option>
                                                     <option value="Buah">Buah</option>
                                                     <option value="Botol">Botol</option>
@@ -89,7 +93,16 @@
                </div>
             </div>
          </section>
-
+         @if (count($errors) > 0)
+            
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
       </div>
    </div>
 

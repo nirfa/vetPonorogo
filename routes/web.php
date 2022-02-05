@@ -89,6 +89,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('reset-stok', [StokObatController::class, 'resetStok'])->name('reset-stok');
     Route::get('download-pemakaian-obat', [DataController::class, 'DPemakaianObat'])->name('download-pemakaian-obat');
     Route::get('download-laporan-keuangan', [DataController::class, 'DKeuangan'])->name('download-laporan-keuangan');
+
+    Route::post('/cek-pemakaian','\App\Http\Controllers\PemakaianObatController@cek');
+    Route::post('/cek-tambahanStok','\App\Http\Controllers\StokObatController@cek');
 });
 
 

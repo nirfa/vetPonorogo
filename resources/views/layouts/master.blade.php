@@ -76,12 +76,12 @@
                                 <span>Keuangan</span>
                             </a>
                         </li>
-                        <li class="sidebar-item @yield('keuangan')">
+                        <!-- <li class="sidebar-item @yield('keuangan')">
                             <a href="/keuangan" class="sidebar-link">
                                 <i class="bi bi-archive-fill"></i>
                                 <span>Riwayat Download</span>
                             </a>
-                        </li>
+                        </li> -->
                         <li class="sidebar-item  ">
                             <a class="sidebar-link" href="{{ route('logout') }}" onclick="event.preventDefault();
                               document.getElementById('logout-form').submit();">

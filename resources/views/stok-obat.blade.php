@@ -16,6 +16,9 @@
                        </button>
                     </a> -->
         </div>
+        @if ($message = Session::get('success'))
+         <div class="alert alert-light-success color-success"><i class="bi bi-check-circle"></i> {{ $message }} </div>
+      @endif
         <div class="page-content">
             <section class="section">
                 <div class="card">
@@ -33,8 +36,8 @@
                                             Download Laporan Obat
                                         </button>
                                     </a>
-                                    <a href="{{ route('reset-stok') }}">
-                                        <button class="btn btn-success">
+                                    <a href="{{ route('reset-stok') }}" class="reset-confirm">
+                                        <button class="btn btn-success ">
                                             Reset Stok
                                         </button>
                                     </a>
@@ -94,7 +97,7 @@
                                                                 d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
                                                         </svg>
                                                     </a>
-                                                    <a href="/hapus/{{ $o->id }}" class="btn btn-danger ml-1">
+                                                    <a href="/hapus/{{ $o->id }}" class="btn btn-danger ml-1 delete-confirm"  role="button">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                             fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                                             <path
@@ -120,5 +123,41 @@
         </section>
     </div>
     </div>
+@section('script')
+	
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
+<script>
+   $('.delete-confirm').on('click', function (event) {
+      event.preventDefault();
+      const url = $(this).attr('href');
+      swal({
+          title: 'Apakah anda yakin akan mengahapus data?',
+          text: 'data akan terhapus pada tabel!',
+          icon: 'warning',
+          buttons: ["Cancel", "Ya!"],
+          }).then(function(value) {
+          if (value) {
+          window.location.href = url;
+        }
+      });
+     });
+</script>
+<script>
+   $('.reset-confirm').on('click', function (event) {
+      event.preventDefault();
+      const url = $(this).attr('href');
+      swal({
+          title: 'Apakah anda yakin untuk reset stok obat pada bulan ini?',
+          text: 'Download laporan obat terlebih dahulu!',
+          icon: 'warning',
+          buttons: ["Cancel", "Ya!"],
+          }).then(function(value) {
+          if (value) {
+          window.location.href = url;
+        }
+      });
+     });
+</script>
+@endsection
 @endsection

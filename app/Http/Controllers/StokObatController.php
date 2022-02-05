@@ -49,11 +49,12 @@ class StokObatController extends Controller
         ];
 
         $this->validate($request,[
+            'kode'          => 'required',
             'kode_obat'     => 'required',
-            'satuan'        => 'required',
+            'satuan'        => 'required|not_in:0',
             'stok_awal'     => 'required',
             'harga_dasar'   => 'required',
-            'stok_akhir'    => 'required',
+            
             
          ],$pesan);
 
@@ -74,8 +75,9 @@ class StokObatController extends Controller
 
             return redirect('/stok-obat')->with('toast_warning', 'Data obat sudah ada !');
         }
-
-        return redirect('/tambah-stok');
+        
+        
+        return redirect('/tambah-stok')->with(['success' => 'Obat '.$request->kode_obat.' berhasil ditambahkan']);
     }
 
 
@@ -166,6 +168,7 @@ class StokObatController extends Controller
         $tambahan = $this->Obat->getTambahan()
             ->join('stok_obat', 'tambahan_stok.id_stok', '=', 'stok_obat.id')
             ->join('obat', 'stok_obat.kode_obat', '=', 'obat.id')
+            ->select('obat.name','tambahan_stok.*')
             ->orderBy('tambahan_stok.id', 'DESC')
             ->paginate(15);
 
@@ -191,5 +194,23 @@ class StokObatController extends Controller
             ]);
         }
         return redirect()->back();
+    }
+
+    public function cek(Request $request)
+    {
+        $dari   = $request->tgl_mulai;
+        $ke     = $request->tgl_selesai;
+
+        
+        $tambahan = $this->Obat->getTambahan()
+            ->join('stok_obat', 'tambahan_stok.id_stok', '=', 'stok_obat.id')
+            ->join('obat', 'stok_obat.kode_obat', '=', 'obat.id')
+            ->select('obat.name','tambahan_stok.*')
+            ->whereBetween(DB::raw('DATE(tambahan_stok.created_at)'), [$dari, $ke])
+            ->orderBy('tambahan_stok.id', 'DESC')
+            ->get();
+
+        return view('tambahan-stok', ['tambahan' => $tambahan]);
+
     }
 }
