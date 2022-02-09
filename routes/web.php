@@ -92,6 +92,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/cek-pemakaian','\App\Http\Controllers\PemakaianObatController@cek');
     Route::post('/cek-tambahanStok','\App\Http\Controllers\StokObatController@cek');
+
+    Route::view('/transaksi','transaksi');
 });
 
 

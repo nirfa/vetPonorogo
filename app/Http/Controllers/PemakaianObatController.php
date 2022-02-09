@@ -41,6 +41,8 @@ class PemakaianObatController extends Controller
         //     'id_status' => 'required',
         //     'jumlah' => 'required'
         //  ]);
+      
+
         $count = count($request->id_stok);
         for ($i = 0; $i < $count; $i++) {
             $stok = $this->Obat->getSobat()->where('id', $request->id_stok[$i])->first();
@@ -70,17 +72,18 @@ class PemakaianObatController extends Controller
 
         //  for ($i=0; $i < $count; $i++){
         //     $cek = $this->Obat->getSobat()->where('id',$request->id_stok[$])->pluck('stok_akhir');
-        //  }
-
-
-        //  dd($cek);
+        //  
+        dd($task);
         return redirect('/detailpasien/' . $request->id_hewan)->with(['success' => 'Data Pemilik Berhasil di Update']);
     }
 
     public function view($id)
     {
         $penyakit = $this->Penyakit->getData()->where('id', $id)->get();
-        return view('tambah-pemakaian-obat', ['penyakit' => $penyakit]);
+        $harga = $this->Obat->getSobat()
+        ->select('stok_obat.harga_dasar')
+        ->get();
+        return view('tambah-pemakaian-obat', ['penyakit' => $penyakit,'harga' => $harga]);
     }
 
     public function cek(Request $request)
