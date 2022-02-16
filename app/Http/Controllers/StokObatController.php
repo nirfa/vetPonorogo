@@ -48,15 +48,15 @@ class StokObatController extends Controller
             'numeric' => ':attribute harus diisi angka !',
         ];
 
-        $this->validate($request,[
+        $this->validate($request, [
             'kode'          => 'required',
             'kode_obat'     => 'required',
             'satuan'        => 'required|not_in:0',
             'stok_awal'     => 'required',
             'harga_dasar'   => 'required',
-            
-            
-         ],$pesan);
+
+
+        ], $pesan);
 
         $cek      = $this->Obat->getSobat()->where('kode_obat', $request->kode_obat)->get();
         $tanggal = date('Y-m-d');
@@ -75,9 +75,9 @@ class StokObatController extends Controller
 
             return redirect('/stok-obat')->with('toast_warning', 'Data obat sudah ada !');
         }
-        
-        
-        return redirect('/tambah-stok')->with(['success' => 'Obat '.$request->kode_obat.' berhasil ditambahkan']);
+
+
+        return redirect('/tambah-stok')->with(['success' => 'Obat ' . $request->kode_obat . ' berhasil ditambahkan']);
     }
 
 
@@ -100,10 +100,10 @@ class StokObatController extends Controller
             'numeric' => ':attribute harus diisi angka !',
         ];
 
-        $this->validate($request,[
+        $this->validate($request, [
             'jumlah'     => 'required',
-            
-         ],$pesan);
+
+        ], $pesan);
 
         $cek        = $this->Obat->getSobat()->where('id', $request->id_stok)->pluck('tambahan');
 
@@ -168,7 +168,7 @@ class StokObatController extends Controller
         $tambahan = $this->Obat->getTambahan()
             ->join('stok_obat', 'tambahan_stok.id_stok', '=', 'stok_obat.id')
             ->join('obat', 'stok_obat.kode_obat', '=', 'obat.id')
-            ->select('obat.name','tambahan_stok.*')
+            ->select('obat.name', 'tambahan_stok.*')
             ->orderBy('tambahan_stok.id', 'DESC')
             ->paginate(15);
 
@@ -189,7 +189,7 @@ class StokObatController extends Controller
         foreach ($obat as $obats) {
             $this->Obat->getSobat()->where('id', $obats->id)->update([
                 'tambahan'   => 0,
-                'stok_awal' => $obats->stok_awal + $obats->tambahan,
+                'stok_awal' => $obats->stok_akhir,
                 "updated_at" => $tanggal,
             ]);
         }
@@ -201,16 +201,15 @@ class StokObatController extends Controller
         $dari   = $request->tgl_mulai;
         $ke     = $request->tgl_selesai;
 
-        
+
         $tambahan = $this->Obat->getTambahan()
             ->join('stok_obat', 'tambahan_stok.id_stok', '=', 'stok_obat.id')
             ->join('obat', 'stok_obat.kode_obat', '=', 'obat.id')
-            ->select('obat.name','tambahan_stok.*')
+            ->select('obat.name', 'tambahan_stok.*')
             ->whereBetween(DB::raw('DATE(tambahan_stok.created_at)'), [$dari, $ke])
             ->orderBy('tambahan_stok.id', 'DESC')
             ->get();
 
         return view('tambahan-stok', ['tambahan' => $tambahan]);
-
     }
 }
