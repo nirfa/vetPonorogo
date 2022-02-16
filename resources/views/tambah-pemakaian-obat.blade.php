@@ -9,8 +9,18 @@
             </a>
         </header>
         <div class="page-heading">
-            <h3>Edit Pemeriksaan Pasien</h3>
+            <h3>Penggunaan Obat</h3>
         </div>
+        @if (count($errors) > 0)
+            
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="page-content">
             <section id="multiple-column-form">
                 <div class="row match-height">
@@ -54,7 +64,7 @@
                                             </div>
                                         </div>
                                         <div class="mt-3"></div>
-                                        <form action="{{ route('task') }}" method="post">
+                                        <form action="/submit/transaksi" method="post">
                                             @csrf
                                             <table class="table table-sm table-bordered" style="display: none;">
                                                 <thead>
@@ -62,6 +72,7 @@
                                                         <th>Kode Obat</th>
                                                         <th>Nama Obat</th>
                                                         <th>Jumlah</th>
+                                                        <th>Harga</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
@@ -77,6 +88,10 @@
                                                         <td>
                                                             <input type="number" id="estimated_ammount"
                                                                 class="estimated_ammount" value="0" readonly>
+                                                        </td>
+                                                        <td>
+                                                            <input type="number" id="harga_total"
+                                                            name="harga_total" class="harga_total" readonly>
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -113,7 +128,7 @@
                         results: $.map(data, function(item) {
                             return {
                                 text: item.name,
-                                id: item.id
+                                id: item.id+','+item.harga_dasar
                             }
                         })
                     };
@@ -132,8 +147,9 @@
         <tr class="delete_add_more_item" id="delete_add_more_item">
     <td>
     @foreach ($penyakit as $p)
-        <input name="id_hewan" value="{{ $p->id_hewan }}" hidden>
-        <input name="id_status[]" value="{{ $p->id }}" hidden>
+        <input name="id_hewan" value="{{ $p->id_hewan }}" >
+        <input name="id_status[]" value="{{ $p->id }}" >
+        <input name="id_statusT" value="{{ $p->id }}" >
     @endforeach
         <input type="text" name="id_stok[]" value="@{{ id_stok }}" readonly>
     </td>
@@ -143,7 +159,9 @@
     <td>
         <input type="number" class="jumlah" name="jumlah[]" value="@{{ jumlah }}">
     </td>
-
+    <td>
+        <input type="text" class="harga_dasar" name="harga_dasar[]" value="@{{ harga_dasar }}">
+    </td>
     <td>
     <i class="removeaddmore" style="cursor:pointer;color:red;">Remove</i>
     </td>
@@ -156,16 +174,25 @@
 
             $('.table').show();
 
-            var id_stok = $("#id_stok :selected").val();
+            // var id_stok = $("#id_stok :selected").val();
+            var id_stok_x = $("#id_stok :selected").val();
             var nama_stok = $("#id_stok :selected").html();
             var jumlah = $("#jumlah").val();
             var source = $("#document-template").html();
             var template = Handlebars.compile(source);
 
+            // tambahan
+            var harga = $("#id_stok :selected").val();
+            var id_stok = id_stok_x.substr(0, id_stok_x.indexOf(','));
+            var harga_dasar = harga.substr(harga.lastIndexOf(',')).match(/[0-9]+$/); 
+
+            
             var data = {
                 id_stok: id_stok,
                 nama_stok: nama_stok,
-                jumlah: jumlah
+                jumlah: jumlah,
+                // tambahan
+                harga_dasar: harga_dasar,
             }
 
             var html = template(data);
@@ -188,7 +215,43 @@
                 }
             });
             $('#estimated_ammount').val(sum);
+
+            //tambahan
+            const harga_total = $(".jumlah").map(function(i, input) {
+                const jumlah = input.value && !isNaN(input.value) ? +input.value : 0;
+                let  harga_dasar = $(input).closest("td").next().find("input").val();
+                harga_dasar = harga_dasar && !isNaN(harga_dasar) ? +harga_dasar : 0;
+                const val = (jumlah * (harga_dasar))
+                return val;
+            }).get().reduce((acc, cur) => { acc += cur; return acc; }, 0)
+
+            $("#harga_total").val(harga_total.toFixed(0))
         }
+
+    </script>
+
+    // tambahan
+    <script>
+        $(function () {
+            $("tbody#addRow").on("input", function() {
+                const estimated_ammount = $(".jumlah").map(function(i, input) {
+                    const val = input.value && !isNaN(input.value) ? +input.value : 0;
+                    // $(input).closest("tr").find("td").eq(4).text(val)
+                    return val;
+                }).get().reduce((acc, cur) => { acc += cur; return acc; }, 0)
+                $("#estimated_ammount").val(estimated_ammount);
+                
+                const harga_total = $(".jumlah").map(function(i, input) {
+                    const jumlah = input.value && !isNaN(input.value) ? +input.value : 0;
+                    let  harga_dasar = $(input).closest("td").next().find("input").val();
+                    harga_dasar = harga_dasar && !isNaN(harga_dasar) ? +harga_dasar : 0;
+                    const val = (jumlah * (harga_dasar))
+                    return val;
+                }).get().reduce((acc, cur) => { acc += cur; return acc; }, 0)
+
+                $("#harga_total").val(harga_total.toFixed(0))
+            });
+        });
     </script>
 
 

@@ -74,7 +74,9 @@
                                                     <label for="state">Breed</label>
                                                     <select name="id_breed" class="form-select" id="basicSelect">
                                                         <option>Pilih Jenis Breed</option>
+                                                        <option value="-"></option>
                                                         @foreach ($breed as $data)
+                                                          
                                                             <option value="{{ $data->id }}">{{ $data->nama }}</option>
                                                         @endforeach
                                                     </select>

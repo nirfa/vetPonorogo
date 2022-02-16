@@ -73,6 +73,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/tambah/pemakaian-obat/{id}', '\App\Http\Controllers\PemakaianObatController@view');
 
     Route::get('/keuangan','\App\Http\Controllers\KeuanganController@view');
+    Route::post('/cek-keuangan','\App\Http\Controllers\KeuanganController@cek');
+
+    Route::get('/riwayat-transaksi','\App\Http\Controllers\TransaksiController@riwayat');
 
 
     Route::get('/search', [Select2SearchController::class, 'index']);
@@ -92,6 +95,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/cek-pemakaian','\App\Http\Controllers\PemakaianObatController@cek');
     Route::post('/cek-tambahanStok','\App\Http\Controllers\StokObatController@cek');
+
+    Route::get('/transaksi/{id}','\App\Http\Controllers\TransaksiController@view');
+    Route::post('/submit/transaksi','\App\Http\Controllers\TransaksiController@tambahTransaksi');
+    Route::post('/edit/transaksi/{id}','\App\Http\Controllers\TransaksiController@editTransaksi');
 });
 
 

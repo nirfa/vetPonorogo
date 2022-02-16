@@ -6,6 +6,7 @@ use App\Models\Pemakaian_stok;
 use App\Models\PenyakitModel;
 use App\Models\StokObatModel;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use DB;
 
 class PemakaianObatController extends Controller
@@ -34,48 +35,51 @@ class PemakaianObatController extends Controller
     }
 
 
-    public function storePemakaianObat(Request $request)
-    {
-        // $request->validate([
-        //     'id_stok' => 'required',
-        //     'id_status' => 'required',
-        //     'jumlah' => 'required'
-        //  ]);
-        $count = count($request->id_stok);
-        for ($i = 0; $i < $count; $i++) {
-            $stok = $this->Obat->getSobat()->where('id', $request->id_stok[$i])->first();
-            $jumlah = $request->jumlah[$i];
-            if ($stok->stok_awal > 0) {
-                $stok = $this->Obat->getSobat()->where('id', $request->id_stok[$i])->update([
-                    'stok_akhir' => $stok->stok_akhir - $jumlah,
-                    'stok_awal' => $stok->stok_awal - $jumlah
-                ]);
-            } else {
-                $stok = $this->Obat->getSobat()->where('id', $request->id_stok[$i])->update([
-                    'stok_akhir' => $stok->stok_akhir - $jumlah,
-                    'tambahan' => $stok->tambahan - $jumlah
-                ]);
-            }
-        }
+    // public function storePemakaianObat(Request $request)
+    // {
+       
 
-        $direct = $request->id_hewan;
+    //     $count = count($request->id_stok);
+    //     for ($i = 0; $i < $count; $i++) {
+    //         $stok = $this->Obat->getSobat()->where('id', $request->id_stok[$i])->first();
+    //         $jumlah = $request->jumlah[$i];
+    //         if ($stok->stok_awal > 0) {
+    //             $stok = $this->Obat->getSobat()->where('id', $request->id_stok[$i])->update([
+    //                 'stok_akhir' => $stok->stok_akhir - $jumlah,
+    //                 'stok_awal' => $stok->stok_awal - $jumlah
+    //             ]);
+    //         } else {
+    //             $stok = $this->Obat->getSobat()->where('id', $request->id_stok[$i])->update([
+    //                 'stok_akhir' => $stok->stok_akhir - $jumlah,
+    //                 'tambahan' => $stok->tambahan - $jumlah
+    //             ]);
+    //         }
+    //     }
 
-        for ($i = 0; $i < $count; $i++) {
-            $task = new Pemakaian_stok();
-            $task->id_stok = $request->id_stok[$i];
-            $task->id_status = $request->id_status[$i];
-            $task->jumlah = $request->jumlah[$i];
-            $task->save();
-        }
+    //     $direct = $request->id_hewan;
 
-        //  for ($i=0; $i < $count; $i++){
-        //     $cek = $this->Obat->getSobat()->where('id',$request->id_stok[$])->pluck('stok_akhir');
-        //  }
+    //     for ($i = 0; $i < $count; $i++) {
+    //         $task = new Pemakaian_stok();
+    //         $task->id_stok = $request->id_stok[$i];
+    //         $task->id_status = $request->id_status[$i];
+    //         $task->jumlah = $request->jumlah[$i];
+    //         $task->save();
+    //     }
+
+    //     $transaksi = $this->transaksi->getData()->insert([
+    //         'id_status'     => $request->id_status,
+    //         'id_hewan'      => $request->id_hewan,
+    //         'harga_terapan' => $request->harga_total,
+    //         "created_at"    =>  \Carbon\Carbon::now(), 
+    //     ]);
+    //     //  for ($i=0; $i < $count; $i++){
+    //     //     $cek = $this->Obat->getSobat()->where('id',$request->id_stok[$])->pluck('stok_akhir');
+    //     //  }
 
 
-        //  dd($cek);
-        return redirect('/detailpasien/' . $request->id_hewan)->with(['success' => 'Data Pemilik Berhasil di Update']);
-    }
+    //     // dd($cek);
+    //     return redirect('/transaksi/'.$request->id_status);
+    // }
 
     public function view($id)
     {

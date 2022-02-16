@@ -123,15 +123,24 @@
                                 <button class="btn btn-success">Download Data</button>
                             </a>
                         </div>
+                        <?php
+                            $count = DB::table('transaksi')->where('id_hewan',$d->id_hewan)->sum('laba');
+                        ?> 
+                        <div class="col-6 text-enter mt-1">
+                            <a href="#">
+                                <button class="btn btn-info">Laba = @currency($count)</button>
+                            </a>
+                        </div>
                     </div>
                     @endforeach
                     <thead>
                         <th width="2%">No</th>
                         <th width="8%">Tanggal</th>
                         <th width="20%">Anamnesa</th>
-                        <th width="20%">Hasil Pemeriksaan</th>
-                        <th width="20%">Diagnosa</th>
-                        <th width="20%">Terapi</th>
+                        <th width="15%">Hasil Pemeriksaan</th>
+                        <th width="15%">Diagnosa</th>
+                        <th width="18%">Terapi</th>
+                        <th width="12%">Perolehan</th>
                         <th width="10%">Aksi</th>
                     </thead>
                     @php
@@ -146,6 +155,7 @@
                             <td><?php echo nl2br(htmlspecialchars($p->hasil_priksa))?></td>
                             <td><?php echo nl2br(htmlspecialchars($p->diagnosa))?></td>
                             <td><?php echo nl2br(htmlspecialchars($p->terapi))?></td>
+                            <td> @currency($p->perolehan)</td>
                             <td>
                                 <a href="/edit/penyakit/{{$p->id}}" type="button" class="btn btn-warning mb-1" title="Detail & Edit">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">

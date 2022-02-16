@@ -73,7 +73,13 @@
                         <li class="sidebar-item @yield('keuangan')">
                             <a href="/keuangan" class="sidebar-link">
                                 <i class="bi bi-cash"></i>
-                                <span>Keuangan</span>
+                                <span>Keuangan Obat</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item @yield('transaksi')">
+                            <a href="/riwayat-transaksi" class="sidebar-link">
+                                <i class="bi bi-cash"></i>
+                                <span>Transaksi</span>
                             </a>
                         </li>
                         <!-- <li class="sidebar-item @yield('keuangan')">

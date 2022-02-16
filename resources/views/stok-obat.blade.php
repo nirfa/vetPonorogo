@@ -84,7 +84,7 @@
                                                 <td>{{ $o->tambahan }}</td>
                                                 <td>{{ $o->stok_akhir }}</td>
                                                 <td>{{ $o->satuan }}</td>
-                                                <td>{{ $o->harga_dasar }}</td>
+                                                <td>@currency($o->harga_dasar)</td>
                                                 <td>{{ date('d-m-y', strtotime($o->created_at)) }}</td>
                                                 <td>
                                                     <a href="/tambahan/obat/{{ $o->id }}" class="btn btn-info m-1">

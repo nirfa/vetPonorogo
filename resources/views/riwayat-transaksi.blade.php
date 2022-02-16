@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('keuangan', 'active')
+@section('transaksi', 'active')
 @section('content')
 
     <div id="main">
@@ -8,13 +8,31 @@
                 <i class="bi bi-justify fs-3"></i>
             </a>
         </header>
+        <?php
+            $countP = DB::table('transaksi')->sum('perolehan');
+            $countJ = DB::table('transaksi')->sum('jasa');
+            $countL = DB::table('transaksi')->sum('laba');
+        ?> 
         <div class="page-heading">
             <h3>Riwayat Keuangan</h3>
-            <!-- <a href="/tambah-stok">
-                   <button  class="btn btn-success">
-                     Tambah Stok Obat Baru
-                   </button>
-                </a> -->
+            <a href="#">
+                <button  class="btn btn-outline-primary">
+                    Total Perolehan <br>
+                    <b>@currency($countP)</b>
+                </button>
+            </a>
+            <a href="#">
+                <button  class="btn btn-outline-primary">
+                    Total Jasa <br>
+                    <b>@currency($countJ)</b>
+                </button>
+            </a>
+            <a href="#">
+                <button  class="btn btn-primary">
+                    Total Laba <br>
+                    <b>@currency($countL)</b>
+                </button>
+            </a>
         </div>
         <div class="page-content">
             <section class="section">
@@ -25,14 +43,14 @@
                                 <div class="dataTable-search ">
                                     <input class="dataTable-input" placeholder="Search..." type="text">
                                     <div class="d-flex justify-content-end">
-                                    <form action="/cek-keuangan" method="post" enctype="multipart/form-data" >
+                                    <form action="/cek-pemakaian" method="post" enctype="multipart/form-data" >
                                         @csrf
                                             <input type="date" name="tgl_mulai">
                                             <input type="date" name="tgl_selesai">
                                             <button type="submit" class="btn btn-outline-success m-1">Cek</button>
                                         </form>
 
-                                        <a href="/keuangan">
+                                        <a href="/pemakaian-obat">
                                             <button class="btn btn-info m-1">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
                                                 <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
@@ -41,7 +59,7 @@
                                             </button>
                                         </a>
                                         <a href="{{ route('download-laporan-keuangan') }}">
-                                            <button class="btn btn-success m-1">
+                                            <button class="btn btn-success ">
                                                 Download
                                             </button>
                                         </a>
@@ -56,31 +74,41 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>Obat</th>
-                                            <th>Kode</th>
-                                            <th>Stok Awal</th>
-                                            <th>Jumlah Penggunaan</th>
-                                            <th>Stok Akhir</th>
-                                            <th>Satuan</th>
-                                            <th>Harga Terapan</th>
-                                            <th>Harga Dasar</th>
+                                            <th>Tanggal</th>
+                                            <th>Nama</th>
+                                            <th>Jenis</th>
+                                            <th>Pendaftaran</th>
+                                            <th>Periksa</th>
+                                            <th>Injeksi</th>
+                                            <th>Peroral</th>
+                                            <th>Bahan Medis</th>
+                                            <th>Rawat Inap</th>
+                                            <th>Sewa Kandang</th>
+                                            <th>Kateterisasi</th>
+                                            <th>Lainnya</th>
+                                     
                                         </tr>
                                     </thead>
                                     @php
                                         $no = 1;
                                     @endphp
-                                    @foreach ($data as $d)
+                                    @foreach ($transaksi as $d)
                                         <tbody>
                                             <tr>
                                             <td>{{ $no++ }}</td>
-                                             <td>{{ $d->name }}</td>
-                                             <td>{{ $d->kode_obat }}</td>
-                                             <td>{{ $d->stok_awal }}</td>
-                                             <td>{{ $d->jumlah_pemakaian }}</td>
-                                             <td>{{ $d->stok_akhir }}</td>
-                                             <td>{{ $d->satuan }}</td>
-                                             <td>{{ $d->harga_terpakai }}</td>
-                                             <td>{{ $d->harga_dasar }}</td>
+                                             <td>{{ date('d-m-y', strtotime($d->created_at)) }}</td>
+                                             <td>{{$d->nama}}</td>
+                                             <td>{{$d->namaK}}</td>
+                                             <td>@currency2($d->pendaftaran)</td>
+                                             <td>@currency2($d->periksa)</td>
+                                             <td>@currency2($d->injeksi)</td>
+                                             <td>@currency2($d->peroral)</td>
+                                             <td>@currency2($d->bahan_medis)</td>
+                                             <td>@currency2($d->rawat_inap)</td>
+                                             <td>@currency2($d->sewa_kandang)</td>
+                                             <td>@currency2($d->kateterisasi)</td>
+                                             <td>@currency2($d->lainnya)</td>
+                                        
                                             </tr>
                                         </tbody>
                                     @endforeach

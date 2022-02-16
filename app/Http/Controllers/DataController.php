@@ -7,6 +7,7 @@ use App\Models\HewanModel;
 use App\Models\PenyakitModel;
 use App\Models\StokObatModel;
 use App\Models\Pemakaian_stok;
+use App\Models\TransaksiModel;
 use DB;
 use Redirect;
 
@@ -28,6 +29,7 @@ class DataController extends Controller
         $this->Penyakit = new PenyakitModel();
         $this->Obat     = new StokObatModel();
         $this->Pemakaian = new Pemakaian_stok();
+        $this->transaksi  = new TransaksiModel();
     }
 
     public function index()
@@ -76,11 +78,17 @@ class DataController extends Controller
             ->where('hewan.id', $id)
             ->get();
 
-        $penyakit = $this->Penyakit->getData()->where('id_hewan', $id)->paginate(7);
+        $penyakit  = $this->Penyakit->getData()
+        ->join('transaksi','transaksi.id_status','=','status_pasien.id')
+        ->select('status_pasien.*','transaksi.*')
+        ->where('status_pasien.id_hewan', $id)
+        ->paginate(7);
+
 
         return view('penyakit', [
             'detail' => $detail,
-            'penyakit' => $penyakit
+            'penyakit' => $penyakit,
+           
         ]);
     }
 
